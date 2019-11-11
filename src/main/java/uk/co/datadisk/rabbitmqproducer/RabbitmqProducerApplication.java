@@ -27,9 +27,10 @@ public class RabbitmqProducerApplication implements CommandLineRunner {
   //private MyPictureProducer myPictureProducer;
   //private RetryPictureProducer retryPictureProducer;
   //private RetryEmployeeProducer retryEmployeeProducer;
+  private SpringPictureProducer springPictureProducer;
 
-  //private final List<String> SOURCES = List.of("mobile", "web");
-  //private final List<String> TYPES = List.of("jpg", "png", "svg");
+  private final List<String> SOURCES = List.of("mobile", "web");
+  private final List<String> TYPES = List.of("jpg", "png", "svg");
 
   public static void main(String[] args) {
     SpringApplication.run(RabbitmqProducerApplication.class, args);
@@ -71,5 +72,16 @@ public class RabbitmqProducerApplication implements CommandLineRunner {
 //      Employee emp = new Employee("Employee" + i, null, LocalDate.now());
 //      retryEmployeeProducer.sendMessage(emp);
 //    }
+
+    for (int i = 0; i < 1; i++) {
+      var p = new Picture();
+
+      p.setName("Picture " + i);
+      p.setSize(ThreadLocalRandom.current().nextLong(9001, 10001));
+      p.setSource(SOURCES.get(i % SOURCES.size()));
+      p.setType(TYPES.get(i % TYPES.size()));
+
+      springPictureProducer.sendMessage(p);
+    }
   }
 }
